@@ -10,4 +10,6 @@ public class FirstSpringProjectScalerApplication {
         SpringApplication.run(FirstSpringProjectScalerApplication.class, args);
     }
 
+
+
 }
