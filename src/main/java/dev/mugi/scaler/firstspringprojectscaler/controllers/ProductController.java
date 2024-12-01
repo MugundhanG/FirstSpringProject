@@ -1,6 +1,7 @@
 package dev.mugi.scaler.firstspringprojectscaler.controllers;
 
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
+import dev.mugi.scaler.firstspringprojectscaler.services.FakeStoreProductService;
 import dev.mugi.scaler.firstspringprojectscaler.services.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,9 @@ public class ProductController {
     }
 
     @GetMapping("/products/id")
-    public Product getProductDetails(@PathVariable("id") long id) {
-        return null;
+    public Product getProductDetails(@PathVariable("id") Long id) {
+        return productService.getProductDetails(id);
+//        return null;
     }
 
     public void createProduct() {
