@@ -3,6 +3,7 @@ package dev.mugi.scaler.firstspringprojectscaler.services;
 import dev.mugi.scaler.firstspringprojectscaler.dtos.CreateProductRequestDto;
 import dev.mugi.scaler.firstspringprojectscaler.dtos.FakeStoreCreateProductDto;
 import dev.mugi.scaler.firstspringprojectscaler.dtos.FakeStoreProductDto;
+import dev.mugi.scaler.firstspringprojectscaler.exceptions.ProductNotFoundException;
 import dev.mugi.scaler.firstspringprojectscaler.model.Category;
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getProductDetails(Long id) {
+    public Product getProductDetails(Long id) throws ProductNotFoundException {
         FakeStoreProductDto responseDto =
                 restTemplate.getForObject(
                         "https://fakestoreapi.com/products/" + id,
@@ -39,6 +40,12 @@ public class FakeStoreProductService implements ProductService {
             //Handling 404 exception
         } else if(responseEntity.getStatusCode() == HttpStatusCode.valueOf(500)) {
             //FE and BE are not working properly
+        }
+
+        FakeStoreProductDto responseBody = responseEntity.getBody();
+
+        if(responseBody == null) {
+            throw new ProductNotFoundException("Product Not Found");
         }
 
         return responseEntity.getBody().toProduct();
@@ -72,4 +79,9 @@ public class FakeStoreProductService implements ProductService {
 
         return products;
     }
+
+//    @Override
+//    public void deleteProduct(Long id) throws ProductNotFoundException {
+////        restTemplate.delete(id);
+//    }
 }

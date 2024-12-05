@@ -1,6 +1,8 @@
 package dev.mugi.scaler.firstspringprojectscaler.controllers;
 
 import dev.mugi.scaler.firstspringprojectscaler.dtos.CreateProductRequestDto;
+import dev.mugi.scaler.firstspringprojectscaler.dtos.ErrorDto;
+import dev.mugi.scaler.firstspringprojectscaler.exceptions.ProductNotFoundException;
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
 import dev.mugi.scaler.firstspringprojectscaler.services.FakeStoreProductService;
 import dev.mugi.scaler.firstspringprojectscaler.services.ProductService;
@@ -25,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProductDetails(@PathVariable("id") Long id) {
+    public Product getProductDetails(@PathVariable("id") Long id) throws ProductNotFoundException {
         return productService.getProductDetails(id);
     }
 
