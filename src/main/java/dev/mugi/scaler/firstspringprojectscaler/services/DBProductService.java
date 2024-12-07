@@ -5,6 +5,7 @@ import dev.mugi.scaler.firstspringprojectscaler.model.Category;
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
 import dev.mugi.scaler.firstspringprojectscaler.repositories.CategoryRepository;
 import dev.mugi.scaler.firstspringprojectscaler.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
