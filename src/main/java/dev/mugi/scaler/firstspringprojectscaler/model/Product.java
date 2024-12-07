@@ -1,6 +1,8 @@
 package dev.mugi.scaler.firstspringprojectscaler.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -15,6 +17,7 @@ public class Product extends BaseModel {
     private double price;
     private String imageURL;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+
     private Category category;
 }

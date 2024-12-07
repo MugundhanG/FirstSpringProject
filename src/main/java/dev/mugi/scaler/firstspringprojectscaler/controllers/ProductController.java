@@ -6,6 +6,7 @@ import dev.mugi.scaler.firstspringprojectscaler.exceptions.ProductNotFoundExcept
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
 import dev.mugi.scaler.firstspringprojectscaler.services.FakeStoreProductService;
 import dev.mugi.scaler.firstspringprojectscaler.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

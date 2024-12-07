@@ -1,15 +1,11 @@
 package dev.mugi.scaler.firstspringprojectscaler.services;
 
-import dev.mugi.scaler.firstspringprojectscaler.dtos.CreateProductRequestDto;
 import dev.mugi.scaler.firstspringprojectscaler.dtos.FakeStoreCreateProductDto;
-import dev.mugi.scaler.firstspringprojectscaler.dtos.FakeStoreProductDto;
+import dev.mugi.scaler.firstspringprojectscaler.dtos.FakeStoreResponseProductDto;
 import dev.mugi.scaler.firstspringprojectscaler.exceptions.ProductNotFoundException;
-import dev.mugi.scaler.firstspringprojectscaler.model.Category;
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,14 +23,14 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product getProductDetails(Long id) throws ProductNotFoundException {
-        FakeStoreProductDto responseDto =
+        FakeStoreResponseProductDto responseDto =
                 restTemplate.getForObject(
                         "https://fakestoreapi.com/products/" + id,
-                        FakeStoreProductDto.class);
+                        FakeStoreResponseProductDto.class);
 
 
-        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate
-                .getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreResponseProductDto> responseEntity = restTemplate
+                .getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreResponseProductDto.class);
 
         if(responseEntity.getStatusCode() == HttpStatusCode.valueOf(404)) {
             //Handling 404 exception
@@ -42,7 +38,7 @@ public class FakeStoreProductService implements ProductService {
             //FE and BE are not working properly
         }
 
-        FakeStoreProductDto responseBody = responseEntity.getBody();
+        FakeStoreResponseProductDto responseBody = responseEntity.getBody();
 
         if(responseBody == null) {
             throw new ProductNotFoundException("Product Not Found");
@@ -61,19 +57,19 @@ public class FakeStoreProductService implements ProductService {
         requestDto.setPrice(price);
         requestDto.setCategory(category);
 
-        FakeStoreProductDto responseDto =  restTemplate.postForObject(
-                "https://fakestoreapi.com/products", requestDto, FakeStoreProductDto.class);
+        FakeStoreResponseProductDto responseDto =  restTemplate.postForObject(
+                "https://fakestoreapi.com/products", requestDto, FakeStoreResponseProductDto.class);
 
         return responseDto.toProduct();
     }
 
     @Override
     public List<Product> getAllProducts() {
-        FakeStoreProductDto[] responseDto = restTemplate.getForObject(
-                "https://fakestoreapi.com/products", FakeStoreProductDto[].class);
+        FakeStoreResponseProductDto[] responseDto = restTemplate.getForObject(
+                "https://fakestoreapi.com/products", FakeStoreResponseProductDto[].class);
 
         List<Product> products = new ArrayList<>();
-        for(FakeStoreProductDto dto : responseDto) {
+        for(FakeStoreResponseProductDto dto : responseDto) {
             products.add(dto.toProduct());
         }
 
