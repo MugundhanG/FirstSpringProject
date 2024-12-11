@@ -1,8 +1,11 @@
 package dev.mugi.scaler.firstspringprojectscaler;
 
+import dev.mugi.scaler.firstspringprojectscaler.model.Category;
 import dev.mugi.scaler.firstspringprojectscaler.model.Product;
 import dev.mugi.scaler.firstspringprojectscaler.projections.ProductTitleAndDesc;
+import dev.mugi.scaler.firstspringprojectscaler.repositories.CategoryRepository;
 import dev.mugi.scaler.firstspringprojectscaler.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,9 @@ class FirstSpringProjectScalerApplicationTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void contextLoads() {
@@ -53,7 +59,26 @@ class FirstSpringProjectScalerApplicationTests {
                 .getProductData3(1L);
 
         System.out.println(productOptional.getTitle() + " " + productOptional.getDescription());
+    }
 
+    @Test
+    @Transactional
+    public void testFetchTypes() {
+        Optional<Category> category = categoryRepository.findById(1L);
+        System.out.println(category.get().getName());
+        System.out.println(category.get().getProducts());
+    }
+
+    @Test
+    @Transactional
+    public void nplus1Problem() {
+        List<Category> categories = categoryRepository.findAll();
+
+        for(Category category : categories) {
+            for(Product product : category.getProducts()) {
+                System.out.println(product.getTitle() + " " + product.getDescription());
+            }
+        }
     }
 
 }
